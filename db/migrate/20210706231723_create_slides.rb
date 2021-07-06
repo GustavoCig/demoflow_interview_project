@@ -2,7 +2,7 @@ class CreateSlides < ActiveRecord::Migration[6.0]
   def change
     create_table :slides do |t|
       t.string :type
-      t.boolean :active
+      t.boolean :active, default: false
 
       t.timestamps
     end

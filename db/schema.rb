@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_231919) do
+ActiveRecord::Schema.define(version: 2021_07_06_232032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,9 +30,20 @@ ActiveRecord::Schema.define(version: 2021_07_06_231919) do
     t.index ["demo_id"], name: "index_presentations_on_demo_id"
   end
 
+  create_table "slide_presentations", force: :cascade do |t|
+    t.bigint "slide_id", null: false
+    t.bigint "presentation_id", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["presentation_id"], name: "index_slide_presentations_on_presentation_id"
+    t.index ["slide_id"], name: "index_slide_presentations_on_slide_id"
+  end
+
   create_table "slides", force: :cascade do |t|
     t.string "type"
-    t.boolean "active"
+    t.boolean "active", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["active"], name: "index_slides_on_active"
@@ -40,4 +51,6 @@ ActiveRecord::Schema.define(version: 2021_07_06_231919) do
   end
 
   add_foreign_key "presentations", "demos"
+  add_foreign_key "slide_presentations", "presentations"
+  add_foreign_key "slide_presentations", "slides"
 end
