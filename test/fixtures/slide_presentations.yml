@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  slide: one
+  presentation: one
+  start_time: 2021-07-06 20:20:32
+  end_time: 2021-07-06 20:20:32
+
+two:
+  slide: two
+  presentation: two
+  start_time: 2021-07-06 20:20:32
+  end_time: 2021-07-06 20:20:32
