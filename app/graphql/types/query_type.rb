@@ -7,11 +7,26 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :demos,
+          [Types::DemoType],
+          null: false,
+          description: 'Fetches a list of created demos with it\'s respective slides'
+
+    field :presentation,
+          Types::PresentationType,
+          null: false,
+          description: 'Fetches a presentation with the ammount spent in each slide'
+
+    # argument :presentation_id,
+    #          Integer,
+    #          required: true
+
+    def demos
+      Demo.includes(:slides).all
     end
+
+    # def presentation(presentation_id:)
+    #   Presentation.find(presentation_id)
+    # end
   end
 end
