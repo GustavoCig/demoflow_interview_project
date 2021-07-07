@@ -15,8 +15,12 @@ class Slide < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
-  def toggle_active!
-    update(active: !active)
+  def activate!
+    update(active: true)
+  end
+
+  def deactivate!
+    update(active: false)
   end
 
   def only_one_active_per_demo!
@@ -27,6 +31,6 @@ class Slide < ApplicationRecord
                               .where
                               .not(id: id)
 
-    other_active_slides.each(&:toggle_active!)
+    other_active_slides.each(&:deactivate!)
   end
 end
