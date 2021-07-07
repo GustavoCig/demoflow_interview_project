@@ -6,5 +6,6 @@ module Types
     field :end_time, GraphQL::Types::ISO8601DateTime, null: true
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+    field :time_spent_per_slide, [Types::TimePerSlideType], null: false
   end
 end

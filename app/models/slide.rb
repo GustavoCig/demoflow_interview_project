@@ -13,11 +13,28 @@ class Slide < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  # This way of saving the amount of time a Slide was viewed
+  # in a Presentation works if the slide is viewed only once per presentation.
+  # Otherwise, will only save part of the total time.
+  # A possible solution would be to pass the amount of time spent while the Slide was active,
+  # Incrementing whatever time has been already saved in the SlidePresentation.
   def activate!
-    update(active: true)
+    Slide.transaction do
+      update(active: true)
+      demo.presentations
+          .active
+          .slide_presentations
+          .create(start_time: Time.current)
+    end
   end
 
   def deactivate!
-    update(active: false)
+    Slide.transaction do
+      update(active: false)
+      demo.presentations
+          .active
+          .slide_presentations
+          .create(end_time: Time.current)
+    end
   end
 end
