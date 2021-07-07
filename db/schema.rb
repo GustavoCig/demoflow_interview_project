@@ -42,14 +42,14 @@ ActiveRecord::Schema.define(version: 2021_07_06_232032) do
   end
 
   create_table "slides", force: :cascade do |t|
-    t.string "type"
+    t.string "slide_type"
     t.bigint "demo_id", null: false
     t.boolean "active", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["active"], name: "index_slides_on_active"
     t.index ["demo_id"], name: "index_slides_on_demo_id"
-    t.index ["type"], name: "index_slides_on_type"
+    t.index ["slide_type"], name: "index_slides_on_slide_type"
   end
 
   add_foreign_key "presentations", "demos"
