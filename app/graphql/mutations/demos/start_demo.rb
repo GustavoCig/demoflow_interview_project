@@ -1,5 +1,5 @@
 module Mutations
-  module Slides
+  module Demos
     class StartDemo < BaseMutation
       field :demo, Types::DemoType, null: false
 
