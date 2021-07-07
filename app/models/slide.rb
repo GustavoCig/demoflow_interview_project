@@ -11,8 +11,6 @@ class Slide < ApplicationRecord
 
   validates :slide_type, inclusion: { in: TYPES }
 
-  before_save :only_one_active_per_demo!
-
   scope :active, -> { where(active: true) }
 
   def activate!
@@ -21,16 +19,5 @@ class Slide < ApplicationRecord
 
   def deactivate!
     update(active: false)
-  end
-
-  def only_one_active_per_demo!
-    return unless active
-
-    other_active_slides = demo.slides
-                              .active
-                              .where
-                              .not(id: id)
-
-    other_active_slides.each(&:deactivate!)
   end
 end

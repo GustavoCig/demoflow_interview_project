@@ -6,11 +6,8 @@ module Mutations
       argument :slide_id, ID, required: true
 
       def resolve(slide_id:)
-        slide = Slide.find(slide_id)
-        slide.activate!
-
         {
-          slide: slide
+          slide: ::Slides::Activate.new(slide_id).call!
         }
       end
     end
