@@ -105,6 +105,27 @@ Builds the assets for development mode, and rebuilds on every detected change.
 Builds the assets for production mode, output files are hashed.
 
 
+## Models
+
+* Demo:
+  * title: Simple string field.
+
+* Presentation:
+  * demo_id: Foreign key to the associated Demo element.
+  * start_time: Time when the Presentation started.
+  * end_time: Time when the Presentation ended.
+
+* Slide:
+  * slide_type: String field that can be any one of three values: **web**, **html**, **image**.
+  * demo_id: Foreign key to the associated Demo element.
+  * active: Boolean field that registers if an slide is currently being viewed or not.
+
+* Slide Presentation:
+  * slide_id: Foreign key to the associated Slide element.
+  * presentation_id: Foreign key to the associated Presentation element.
+  * start_time: Time when slide began to be displayed in the respective Presentation.
+  * start_time: Time when slide stopped being displayed in the respective Presentation.
+
 ## Next Steps
 
 A couple of things that I would change if given more time or if this was a real in production application (Some of these are already commented throught the code):
@@ -113,4 +134,4 @@ A couple of things that I would change if given more time or if this was a real 
 * Both Presentation and SlidePresentation implement the same validation, that checks if it's end_time is larger than the start_time. It would be better to extract this to a standalone validator.
 * The application currently assumes that a Demo can only have one "active" presentation at a time. It distinguishes this behaviour by checking if a Demo's presentations have a end_time set, if not, it assumes that that presentation is the currently active one. If this were to change some of the GraphQL mutations might need extra parameters to properly run.
 * Currently the time spent in each Slide during a Presentation is saved in a separate many-to-many association table SlidePresentations, with it's respective start_time and end_time. However, this logic breaks apart if a Slide is viewed multiple times during a single presentation. A proper way to deal with this case would be to store a "duration" value instead of start/end_time, and have a extra duration parameter be given to the activate GraphQL mutation, incrementing the saved SlidePresentation's duration with the new value.
-* The GraphQL side of the application could be better implemented. It's current implementation was done as a learning experience with very little prior GraphQL experience.
+* The GraphQL side of the application could be better implemented. It's current implementation was done as a learning experience with very little prior GraphQL experience. Also properly testing the GraphQl requests.
