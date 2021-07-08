@@ -33,7 +33,10 @@ class Presentation < ApplicationRecord
 
   # Assumes that a demo can't have two ongoing presentations at the same time
   def pending_presentation_for_demo
-    return if demo.presentations.where(end_time: nil).none?
+    return if end_time.present? || demo.presentations
+                                       .where(end_time: nil)
+                                       .where.not(id: id)
+                                       .none?
 
     errors.add(:base, 'Already exists an ongoing presentation')
   end

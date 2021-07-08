@@ -21,20 +21,26 @@ class Slide < ApplicationRecord
   def activate!
     Slide.transaction do
       update(active: true)
-      demo.presentations
-          .active
-          .slide_presentations
-          .create(start_time: Time.current)
+      slide_presentation = demo.presentations
+                               .active
+                               .slide_presentations
+                               .where(slide: self)
+                               .first_or_initialize
+
+      slide_presentation.update(start_time: Time.current)
     end
   end
 
   def deactivate!
     Slide.transaction do
       update(active: false)
-      demo.presentations
-          .active
-          .slide_presentations
-          .create(end_time: Time.current)
+      slide_presentation = demo.presentations
+                               .active
+                               .slide_presentations
+                               .where(slide: self)
+                               .first_or_initialize
+
+      slide_presentation.update(end_time: Time.current)
     end
   end
 end
