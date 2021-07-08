@@ -105,3 +105,12 @@ Builds the assets for development mode, and rebuilds on every detected change.
 Builds the assets for production mode, output files are hashed.
 
 
+## Next Steps
+
+A couple of things that I would change if given more time or if this was a real in production application (Some of these are already commented throught the code):
+
+* Currently the Slide's type is a simple string column, a better implementation would be to separate each type into a separate class either via heritage or a polymorphic association. Since in this test application there is no different business logic between types, I felt that it would be a little bit too overengineered to separate them here.
+* Both Presentation and SlidePresentation implement the same validation, that checks if it's end_time is larger than the start_time. It would be better to extract this to a standalone validator.
+* The application currently assumes that a Demo can only have one "active" presentation at a time. It distinguishes this behaviour by checking if a Demo's presentations have a end_time set, if not, it assumes that that presentation is the currently active one. If this were to change some of the GraphQL mutations might need extra parameters to properly run.
+* Currently the time spent in each Slide during a Presentation is saved in a separate many-to-many association table SlidePresentations, with it's respective start_time and end_time. However, this logic breaks apart if a Slide is viewed multiple times during a single presentation. A proper way to deal with this case would be to store a "duration" value instead of start/end_time, and have a extra duration parameter be given to the activate GraphQL mutation, incrementing the saved SlidePresentation's duration with the new value.
+* The GraphQL side of the application could be better implemented. It's current implementation was done as a learning experience with very little prior GraphQL experience.
